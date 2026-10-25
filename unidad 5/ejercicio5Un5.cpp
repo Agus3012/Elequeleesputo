@@ -18,6 +18,7 @@ void crear(puntero &xp);
 void ingresoOrdenado(puntero &xp);
 
 
+
 int main(){
 	puntero cab;
 	crear(cab);

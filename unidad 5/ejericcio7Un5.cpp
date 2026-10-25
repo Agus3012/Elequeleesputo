@@ -18,7 +18,7 @@ void crearCab(info arreglo[N]);
 void procesa(info arreglo[N]);
 void suprimir(info arreglo[N], int xdni);
 void mostrarRec(info arreglo[N], int i, int xdni, puntero aux);
-void intercambio(info arreglo[N]);
+void intercambio(puntero &cab);
 
 
 int main(){
@@ -31,7 +31,7 @@ int main(){
 	printf("Ingrese dni para buscar entre los cursos: \n");
 	scanf("%d", &dni2);
 	mostrarRec(arreglo, 0, dni2, arreglo[0].cab);
-	intercambio(arreglo);
+	intercambio(arreglo[6].cab);
 }
 
 void crearCab(info arreglo[N]){
@@ -83,9 +83,9 @@ void suprimir(info arreglo[N], int xdni){
 			}
 			if (p != NULL){
 				anterior -> sig = p ->sig;
+				free(p);
+				ban = 1;
 			}
-			free(p);
-			ban = 1;
 		}
 	}
 	//validacion de la bandera
@@ -107,9 +107,32 @@ void mostrarRec(info arreglo[N], int i, int xdni, puntero aux){
 	}
 }
 
-void intercambio(info arreglo[N]){
-	puntero aux1, aux2, aux3;
-	
+void suprimir(info arreglo[N], int i, int xdni, puntero &xp){
+	if (i<N){
+		if(xp != NULL){
+			if(xp->dni == xdni){
+				puntero aux = xp;
+				xp  = xp ->sig ;
+				free(aux);
+			}else{
+				suprimir(arreglo, i, xdni, xp->sig);
+			}
+		}else{
+			if (i+1 <N){
+				suprimir(arreglo, i+1, xdni, arreglo[i+1].cab);
+			}
+		}
+	}
+}
+
+void intercambio(puntero &cab){
+	if(cab != NULL && cab->sig != NULL && cab->sig->sig != NULL){
+		puntero segundo = cab->sig;
+		puntero tercero = segundo->sig;
+		segundo->sig = tercero->sig;
+		tercero->sig = segundo;
+		cab->sig = tercero;
+	}
 }
 
 
